@@ -28,8 +28,6 @@ services:
      volumes:
        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
        - ./nginx/api.conf.template:/etc/nginx/templates/api.conf.template:ro
-       - static_volume:/data/static:ro
-       - media_volume:/data/media:ro
        - ./certificates/letsencrypt:/etc/letsencrypt
        - ./certificates/certbot:/var/www/certbot
      ports:
