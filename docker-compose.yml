@@ -22,5 +22,23 @@ services:
     depends_on:
       - mongo
 
+  nginx:
+     image: nginx:1.21.6-alpine
+     restart: unless-stopped
+     volumes:
+       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+       - ./nginx/api.conf.template:/etc/nginx/templates/api.conf.template:ro
+       - static_volume:/data/static:ro
+       - media_volume:/data/media:ro
+       - ./certificates/letsencrypt:/etc/letsencrypt
+       - ./certificates/certbot:/var/www/certbot
+     ports:
+       - "80:80"
+       - "443:443"
+     env_file:
+       - ./.env
+     depends_on:
+       - api
+
 volumes:
   mongo_data:

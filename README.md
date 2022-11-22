@@ -31,3 +31,7 @@ POST /signin
 `docker-compose up -d`
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
+
+## Путь
+[https://api.movies-explorer.haydev.ru](https://api.movies-explorer.haydev.ru)
+
