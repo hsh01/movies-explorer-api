@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "eeeb71a2-cc42-4b8b-af72-16bd98bfbde8",
-		"name": "movies-api",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17545230"
-	},
+    "_postman_id": "ffa11f6c-7f1d-4ef7-b9e1-c97ccb7852f9",
+    "name": "movies-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
 	"item": [
 		{
 			"name": "access",
@@ -768,38 +767,83 @@
 						"url": {
 							"raw": "{{base_url}}/users",
 							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "[+] [PATCH] Обновление данных пользователя",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Код ответа равен 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Данные в ответе совпадают с данными обновленного пользователя\", () => {\r",
-									"    const user = utils.getData(pm.response.json());\r",
-									"\r",
-									"    pm.expect(user.name).to.eql(pm.collectionVariables.get(\"user_name_changed\"));\r",
-									"});\r",
-									"\r",
-									"pm.test(\"В ответе отсутствует поле password\", () => {\r",
-									"    const user = utils.getData(pm.response.json());\r",
-									"\r",
-									"    pm.expect(user).not.to.have.property('password');\r",
-									"});"
-								],
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "[-] [PATCH] Обновление данных пользователя с существующим email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Код ответа равен 409\", () => {\r",
+                  "    pm.response.to.have.status(409);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Проверка возврата поля message\", () => {\r",
+                  "    pm.response.to.have.jsonSchema(JSON.parse(pm.collectionVariables.get(\"schema_message_only\")))\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"{{user_email_third}}\",\r\n    \"name\": \"test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "[+] [PATCH] Обновление данных пользователя",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Код ответа равен 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Данные в ответе совпадают с данными обновленного пользователя\", () => {\r",
+                  "    const user = utils.getData(pm.response.json());\r",
+                  "\r",
+                  "    pm.expect(user.name).to.eql(pm.collectionVariables.get(\"user_name_changed\"));\r",
+                  "    pm.expect(user.email).to.eql(pm.collectionVariables.get(\"user_email_changed\"));\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"В ответе отсутствует поле password\", () => {\r",
+                  "    const user = utils.getData(pm.response.json());\r",
+                  "\r",
+                  "    pm.expect(user).not.to.have.property('password');\r",
+                  "});"
+                ],
 								"type": "text/javascript"
 							}
 						}
@@ -808,14 +852,14 @@
 						"method": "PATCH",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{   \r\n    \"name\": \"123\",\r\n    \"email\": \"fas@asdf.ru\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
+              "mode": "raw",
+              "raw": "{   \r\n    \"name\": \"{{user_name_changed}}\",\r\n    \"email\": \"{{user_email_changed}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
 						"url": {
 							"raw": "{{base_url}}/users/me",
 							"host": [
@@ -951,14 +995,14 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameRU\": \"{{movie_nameRU}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\",\r\n    \"link\": \"{{movie_link}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
+              "mode": "raw",
+              "raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameRU\": \"{{movie_nameRU}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
 						"url": {
 							"raw": "{{base_url}}/movies",
 							"host": [
@@ -1039,14 +1083,14 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\",\r\n    \"link\": \"{{movie_link}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
+              "mode": "raw",
+              "raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
 						"url": {
 							"raw": "{{base_url}}/movies",
 							"host": [
@@ -1059,18 +1103,18 @@
 					},
 					"response": []
 				},
-				{
-					"name": "[-] [POST] Добавление фильма без обязательного поля link",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Код ответа равен 400\", () => {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Ошибка валидации поймана при помощи Joi\", () => {\r",
+        {
+          "name": "[-] [POST] Добавление фильма без обязательного поля thumbnail",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Код ответа равен 400\", () => {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Ошибка валидации поймана при помощи Joi\", () => {\r",
 									"    const schema = utils.generateSchemaValidationError('body', 'link', pm.response.json());\r",
 									"    pm.response.to.have.jsonSchema(schema);\r",
 									"});"
@@ -1083,14 +1127,14 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameRU\": \"{{movie_nameRU}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
+              "mode": "raw",
+              "raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameRU\": \"{{movie_nameRU}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
 						"url": {
 							"raw": "{{base_url}}/movies",
 							"host": [
@@ -1147,14 +1191,14 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Удаленной карточки не должно быть в БД\", () => {\r",
-									"    const cards = utils.getData(pm.response.json());\r",
-									"    const deletedId = pm.collectionVariables.get(\"card_id\");\r",
-									"    const hasCard = !!cards?.find((item) => item._id === deletedId);\r",
-									"\r",
-									"    pm.expect(hasCard).to.eq(false);\r",
-									"});"
-								],
+                  "pm.test(\"Удаленной карточки не должно быть в БД\", () => {\r",
+                  "    const cards = utils.getData(pm.response.json());\r",
+                  "    const deletedId = pm.collectionVariables.get(\"movie_id\");\r",
+                  "    const hasCard = !!cards?.find((item) => item._id === deletedId);\r",
+                  "\r",
+                  "    pm.expect(hasCard).to.eq(false);\r",
+                  "});"
+                ],
 								"type": "text/javascript"
 							}
 						}
@@ -1193,19 +1237,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/movies/:movieid",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"movies",
-								":movieid"
-							],
-							"variable": [
-								{
-									"key": "movieid",
-									"value": "{{movie_movieId}}"
-								}
+              "raw": "{{base_url}}/movies/:_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "movies",
+                ":_id"
+              ],
+              "variable": [
+                {
+                  "key": "_id",
+                  "value": "{{movie_movieId}}"
+                }
 							]
 						}
 					},
@@ -1315,14 +1359,14 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameRU\": \"{{movie_nameRU}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\",\r\n    \"link\": \"{{movie_link}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
+              "mode": "raw",
+              "raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameRU\": \"{{movie_nameRU}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
 						"url": {
 							"raw": "{{base_url}}/movies",
 							"host": [
@@ -1402,19 +1446,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/movies/:movieid",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"movies",
-								":movieid"
-							],
-							"variable": [
-								{
-									"key": "movieid",
-									"value": "{{movie_movieId}}"
-								}
+              "raw": "{{base_url}}/movies/:_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "movies",
+                ":_id"
+              ],
+              "variable": [
+                {
+                  "key": "_id",
+                  "value": "{{movie_movieId}}"
+                }
 							]
 						}
 					},
@@ -1640,10 +1684,10 @@
 			"key": "movie_link_incorrect",
 			"value": "link:/link~!bad"
 		},
-		{
-			"key": "card_id",
-			"value": ""
-		},
+    {
+      "key": "movie_id",
+      "value": ""
+    },
 		{
 			"key": "schema_message_only",
 			"value": ""
@@ -1661,11 +1705,11 @@
 			"value": "",
 			"type": "string"
 		},
-		{
-			"key": "movie_movieId_const",
-			"value": "637d12a7bf4d484c18c6ab44",
-			"type": "string"
-		},
+    {
+      "key": "movie_movieId_const",
+      "value": "2132",
+      "type": "string"
+    },
 		{
 			"key": "movie_nameRU",
 			"value": "Название",

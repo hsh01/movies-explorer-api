@@ -4,13 +4,14 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const express = require('express');
-const routes = require('./core/routes');
+const routes = require('./core');
 const errorHandler = require('./middlewares/error');
 const cors = require('./middlewares/cors');
 const {
   BASE_PATH, PORT, MONGODB_URI,
 } = require('./config');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
+const {requestLogger, errorLogger} = require('./middlewares/logger');
+const limiter = require('./middlewares/rate-limiter');
 
 const app = express();
 
@@ -23,6 +24,7 @@ mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
+  useUnifiedTopology: true,
 })
   .catch((err) => console.log(err));
 
@@ -30,6 +32,7 @@ app.use(cors);
 app.use(cookieParser());
 
 app.use(routes);
+app.use(limiter);
 
 app.use(errorLogger);
 app.use(errors());

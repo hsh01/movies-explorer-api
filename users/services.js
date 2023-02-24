@@ -3,6 +3,7 @@ const User = require('./models');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ConflictError = require('../errors/conflict-error');
+const {ErrorMessagesEnum} = require('../constants');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -11,12 +12,24 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getMe = (req, res, next) => {
-  User.findById({ _id: req.user._id })
+  User.findById({_id: req.user._id})
     .then((user) => {
       res.send(user);
     })
     .catch(next);
 };
+
+function UserErrorHandler(next) {
+  return (err) => {
+    if (err.code === 11000) {
+      return next(new ConflictError(ErrorMessagesEnum.EMAIL_ALREADY_EXISTS));
+    }
+    if (err.name === 'ValidationError') {
+      return next(new BadRequestError(err.message));
+    }
+    return next(err);
+  };
+}
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -35,15 +48,7 @@ module.exports.createUser = (req, res, next) => {
         name: user.name,
       });
     })
-    .catch((err) => {
-      if (err.code === 11000) {
-        return next(new ConflictError('Пользователь с данным email уже существует'));
-      }
-      if (err.name === 'ValidationError') {
-        return next(new BadRequestError(err.message));
-      }
-      return next(err);
-    });
+    .catch(UserErrorHandler(next));
 };
 
 module.exports.updateUser = (req, res, next) => {
@@ -53,18 +58,14 @@ module.exports.updateUser = (req, res, next) => {
     { name, email },
     {
       runValidators: true,
+      new: true,
     },
   )
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Запрашиваемая пользователь не найден');
+        throw new NotFoundError(ErrorMessagesEnum.USER_NOT_FOUND);
       }
       return res.send(user);
     })
-    .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
-        return next(new BadRequestError(err.message));
-      }
-      return next(err);
-    });
+    .catch((UserErrorHandler(next)));
 };

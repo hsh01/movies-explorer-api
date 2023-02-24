@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+const {ErrorMessagesEnum} = require('../constants');
 
 const movieSchema = new mongoose.Schema(
   {
     movieId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
       ref: 'user',
       required: true,
     },
@@ -41,7 +42,7 @@ const movieSchema = new mongoose.Schema(
       validate: [(value) => {
         const regex = /^https?:\/\/[-._~:/?#[\]!$&'()*+,;=\w\d]+$/mi;
         return !!value.match(regex);
-      }, 'Неверная ссылка'],
+      }, ErrorMessagesEnum.WRONG_URL],
     },
     trailerLink: {
       type: String,
@@ -49,7 +50,7 @@ const movieSchema = new mongoose.Schema(
       validate: [(value) => {
         const regex = /^https?:\/\/[-._~:/?#[\]!$&'()*+,;=\w\d]+$/mi;
         return !!value.match(regex);
-      }, 'Неверная ссылка'],
+      }, ErrorMessagesEnum.WRONG_URL],
     },
     thumbnail: {
       type: String,
@@ -57,7 +58,7 @@ const movieSchema = new mongoose.Schema(
       validate: [(value) => {
         const regex = /^https?:\/\/[-._~:/?#[\]!$&'()*+,;=\w\d]+$/mi;
         return !!value.match(regex);
-      }, 'Неверная ссылка'],
+      }, ErrorMessagesEnum.WRONG_URL],
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

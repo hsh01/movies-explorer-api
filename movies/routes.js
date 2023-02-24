@@ -7,7 +7,7 @@ const {
 const { MovieCreateSchema, MovieParamIdSchema } = require('./schemas');
 
 router.get('/', getMovies);
-router.delete('/:movieId', celebrate(MovieParamIdSchema), deleteMovie);
+router.delete('/:_id', celebrate(MovieParamIdSchema), deleteMovie);
 router.post('/', celebrate(MovieCreateSchema), createMovie);
 
 module.exports = router;
