@@ -1,19 +1,19 @@
 {
-	"info": {
+  "info": {
     "_postman_id": "ffa11f6c-7f1d-4ef7-b9e1-c97ccb7852f9",
     "name": "movies-api",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
-	"item": [
-		{
-			"name": "access",
-			"item": [
-				{
-					"name": "[-] [GET] Защита авторизацией",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
+  "item": [
+    {
+      "name": "access",
+      "item": [
+        {
+          "name": "[-] [GET] Защита авторизацией",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
 								"exec": [
 									"pm.test(\"Код ответа равен 401\", () => {\r",
 									"    pm.response.to.have.status(401);\r",
@@ -757,16 +757,16 @@
 									"const user = users?.find((item) => item.email === email);\r",
 									"\r",
 									"pm.collectionVariables.set(\"user_id\", user._id);"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/users",
-							"host": [
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
                 "{{base_url}}"
               ],
               "path": [
@@ -844,14 +844,14 @@
                   "    pm.expect(user).not.to.have.property('password');\r",
                   "});"
                 ],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
               "mode": "raw",
               "raw": "{   \r\n    \"name\": \"{{user_name_changed}}\",\r\n    \"email\": \"{{user_email_changed}}\"\r\n}",
               "options": {
@@ -860,16 +860,16 @@
                 }
               }
             },
-						"url": {
-							"raw": "{{base_url}}/users/me",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"me"
-							]
-						}
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            }
 					},
 					"response": []
 				},
@@ -992,9 +992,9 @@
 						}
 					],
 					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
+            "method": "POST",
+            "header": [],
+            "body": {
               "mode": "raw",
               "raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameRU\": \"{{movie_nameRU}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\"\r\n}",
               "options": {
@@ -1003,16 +1003,16 @@
                 }
               }
             },
-						"url": {
-							"raw": "{{base_url}}/movies",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"movies"
-							]
-						}
-					},
+            "url": {
+              "raw": "{{base_url}}/movies",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "movies"
+              ]
+            }
+          },
 					"response": []
 				},
 				{
@@ -1059,18 +1059,18 @@
 					},
 					"response": []
 				},
-				{
-					"name": "[-] [POST] Добавление карточки без обязательного поля nameRU",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Код ответа равен 400\", () => {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Ошибка валидации поймана при помощи Joi\", () => {\r",
+        {
+          "name": "[-] [POST] Добавление фильма без обязательного поля nameRU",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Код ответа равен 400\", () => {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Ошибка валидации поймана при помощи Joi\", () => {\r",
 									"    const schema = utils.generateSchemaValidationError('body', 'nameRU', pm.response.json());\r",
 									"    pm.response.to.have.jsonSchema(schema);\r",
 									"});"
@@ -1080,9 +1080,9 @@
 						}
 					],
 					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
+            "method": "POST",
+            "header": [],
+            "body": {
               "mode": "raw",
               "raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\"\r\n}",
               "options": {
@@ -1091,18 +1091,18 @@
                 }
               }
             },
-						"url": {
-							"raw": "{{base_url}}/movies",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"movies"
-							]
-						}
-					},
-					"response": []
-				},
+            "url": {
+              "raw": "{{base_url}}/movies",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "movies"
+              ]
+            }
+          },
+          "response": []
+        },
         {
           "name": "[-] [POST] Добавление фильма без обязательного поля thumbnail",
           "event": [
@@ -1115,18 +1115,18 @@
                   "});\r",
                   "\r",
                   "pm.test(\"Ошибка валидации поймана при помощи Joi\", () => {\r",
-									"    const schema = utils.generateSchemaValidationError('body', 'link', pm.response.json());\r",
-									"    pm.response.to.have.jsonSchema(schema);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
+                  "    const schema = utils.generateSchemaValidationError('body', 'thumbnail', pm.response.json());\r",
+                  "    pm.response.to.have.jsonSchema(schema);\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
               "mode": "raw",
               "raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameRU\": \"{{movie_nameRU}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\"\r\n}",
               "options": {
@@ -1135,16 +1135,16 @@
                 }
               }
             },
-						"url": {
-							"raw": "{{base_url}}/movies",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"movies"
-							]
-						}
-					},
+            "url": {
+              "raw": "{{base_url}}/movies",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "movies"
+              ]
+            }
+          },
 					"response": []
 				},
 				{
@@ -1190,7 +1190,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"exec": [
+                "exec": [
                   "pm.test(\"Удаленной карточки не должно быть в БД\", () => {\r",
                   "    const cards = utils.getData(pm.response.json());\r",
                   "    const deletedId = pm.collectionVariables.get(\"movie_id\");\r",
@@ -1199,8 +1199,8 @@
                   "    pm.expect(hasCard).to.eq(false);\r",
                   "});"
                 ],
-								"type": "text/javascript"
-							}
+                "type": "text/javascript"
+              }
 						}
 					],
 					"request": {
@@ -1250,8 +1250,8 @@
                   "key": "_id",
                   "value": "{{movie_movieId}}"
                 }
-							]
-						}
+              ]
+            }
 					},
 					"response": []
 				},
@@ -1356,9 +1356,9 @@
 						}
 					],
 					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
+            "method": "POST",
+            "header": [],
+            "body": {
               "mode": "raw",
               "raw": "{\r\n    \"movieId\": \"{{movie_movieId_const}}\",\r\n    \"nameRU\": \"{{movie_nameRU}}\",\r\n    \"nameEN\": \"{{movie_nameEN}}\",\r\n    \"country\": \"{{movie_country}}\",\r\n    \"director\": \"{{movie_director}}\",\r\n    \"duration\": \"{{movie_duration}}\",\r\n    \"year\": \"{{movie_year}}\",\r\n    \"description\": \"{{movie_description}}\",\r\n    \"image\": \"{{movie_link}}\",\r\n    \"trailerLink\": \"{{movie_link}}\",\r\n    \"thumbnail\": \"{{movie_link}}\"\r\n}",
               "options": {
@@ -1367,16 +1367,16 @@
                 }
               }
             },
-						"url": {
-							"raw": "{{base_url}}/movies",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"movies"
-							]
-						}
-					},
+            "url": {
+              "raw": "{{base_url}}/movies",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "movies"
+              ]
+            }
+          },
 					"response": []
 				},
 				{
@@ -1459,8 +1459,8 @@
                   "key": "_id",
                   "value": "{{movie_movieId}}"
                 }
-							]
-						}
+              ]
+            }
 					},
 					"response": []
 				}
@@ -1674,52 +1674,52 @@
 		},
 		{
 			"key": "card_name",
-			"value": "testCard"
-		},
-		{
-			"key": "movie_link",
-			"value": "https://ya.ru/link.test"
-		},
-		{
-			"key": "movie_link_incorrect",
-			"value": "link:/link~!bad"
-		},
+      "value": "testCard"
+    },
+    {
+      "key": "movie_link",
+      "value": "https://ya.ru/link.test"
+    },
+    {
+      "key": "movie_link_incorrect",
+      "value": "link:/link~!bad"
+    },
     {
       "key": "movie_id",
       "value": ""
     },
-		{
-			"key": "schema_message_only",
-			"value": ""
-		},
-		{
-			"key": "user_password_incorrect",
-			"value": "short"
-		},
-		{
-			"key": "jwt_token",
-			"value": ""
-		},
-		{
-			"key": "movie_movieId",
-			"value": "",
-			"type": "string"
-		},
+    {
+      "key": "schema_message_only",
+      "value": ""
+    },
+    {
+      "key": "user_password_incorrect",
+      "value": "short"
+    },
+    {
+      "key": "jwt_token",
+      "value": ""
+    },
+    {
+      "key": "movie_movieId",
+      "value": "",
+      "type": "string"
+    },
     {
       "key": "movie_movieId_const",
       "value": "2132",
       "type": "string"
     },
-		{
-			"key": "movie_nameRU",
-			"value": "Название",
-			"type": "string"
-		},
-		{
-			"key": "movie_nameEN",
-			"value": "Title",
-			"type": "string"
-		},
+    {
+      "key": "movie_nameRU",
+      "value": "Название",
+      "type": "string"
+    },
+    {
+      "key": "movie_nameEN",
+      "value": "Title",
+      "type": "string"
+    },
 		{
 			"key": "movie_country",
 			"value": "RU",

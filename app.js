@@ -11,7 +11,7 @@ const {
   BASE_PATH, PORT, MONGODB_URI,
 } = require('./config');
 const {requestLogger, errorLogger} = require('./middlewares/logger');
-const limiter = require('./middlewares/rate-limiter');
+const {limiter} = require('./middlewares/rate-limiter');
 
 const app = express();
 

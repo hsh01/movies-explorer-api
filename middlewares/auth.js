@@ -10,6 +10,7 @@ module.exports = (req, res, next) => {
   if (req.cookies.jwt) {
     token = req.cookies.jwt;
   } else {
+    // legacy support
     const { authorization } = req.headers;
     if (!authorization || !authorization.startsWith('Bearer ')) {
       throw new UnauthorizedError(ErrorMessagesEnum.NEED_AUTH);
@@ -21,7 +22,7 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
-    next(new UnauthorizedError(ErrorMessagesEnum.NEED_AUTH));
+    throw new UnauthorizedError(ErrorMessagesEnum.NEED_AUTH);
   }
 
   req.user = payload;

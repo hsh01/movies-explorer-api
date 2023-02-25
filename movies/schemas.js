@@ -1,5 +1,5 @@
-const { Joi } = require('celebrate');
-const { URL_REGEX } = require('../constants');
+const {Joi} = require('celebrate');
+const {URL_REGEX} = require('../constants');
 
 const MovieCreateSchema = {
   body: Joi.object().keys({
@@ -19,9 +19,8 @@ const MovieCreateSchema = {
 
 const MovieParamIdSchema = {
   params: Joi.object().keys({
-    _id: Joi.string().required().hex().alphanum()
-      .length(24),
+    _id: Joi.string().required().hex().length(24),
   }),
 };
 
-module.exports = { MovieCreateSchema, MovieParamIdSchema };
+module.exports = {MovieCreateSchema, MovieParamIdSchema};
