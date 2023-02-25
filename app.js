@@ -10,8 +10,8 @@ const cors = require('./middlewares/cors');
 const {
   BASE_PATH, PORT, MONGODB_URI,
 } = require('./config');
-const {requestLogger, errorLogger} = require('./middlewares/logger');
-const {limiter} = require('./middlewares/rate-limiter');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { limiter } = require('./middlewares/rate-limiter');
 
 const app = express();
 
@@ -31,8 +31,8 @@ mongoose.connect(MONGODB_URI, {
 app.use(cors);
 app.use(cookieParser());
 
-app.use(routes);
 app.use(limiter);
+app.use(routes);
 
 app.use(errorLogger);
 app.use(errors());

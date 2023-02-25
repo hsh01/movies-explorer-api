@@ -1,7 +1,7 @@
-const {ErrorMessagesEnum} = require('../constants');
+const { ErrorMessagesEnum } = require('../constants');
 
 module.exports = (err, req, res, next) => {
-  const {statusCode = 500, message} = err;
+  const { statusCode = 500, message } = err;
   console.error(err);
 
   res

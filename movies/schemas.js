@@ -1,5 +1,5 @@
-const {Joi} = require('celebrate');
-const {URL_REGEX} = require('../constants');
+const { Joi } = require('celebrate');
+const { URL_REGEX } = require('../constants');
 
 const MovieCreateSchema = {
   body: Joi.object().keys({
@@ -23,4 +23,4 @@ const MovieParamIdSchema = {
   }),
 };
 
-module.exports = {MovieCreateSchema, MovieParamIdSchema};
+module.exports = { MovieCreateSchema, MovieParamIdSchema };

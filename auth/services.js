@@ -7,13 +7,13 @@ module.exports.login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({_id: user._id}, JWT_SECRET, {expiresIn: '7d'});
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
       res.cookie('jwt', token, {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
         sameSite: true,
-      }).send({success: true});
+      }).send({ success: true });
     })
     .catch(next);
 };

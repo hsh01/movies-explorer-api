@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {ErrorMessagesEnum} = require('../constants');
+const { ErrorMessagesEnum } = require('../constants');
 
 const movieSchema = new mongoose.Schema(
   {

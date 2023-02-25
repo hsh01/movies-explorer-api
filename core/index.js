@@ -5,7 +5,7 @@ const auth = require('../middlewares/auth');
 const authRouter = require('../auth/routes');
 const userRouter = require('../users/routes');
 const cardRouter = require('../movies/routes');
-const {ErrorMessagesEnum} = require('../constants');
+const { ErrorMessagesEnum } = require('../constants');
 
 router.use('/', authRouter);
 router.use('/users', auth, userRouter);

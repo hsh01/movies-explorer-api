@@ -2,19 +2,19 @@ const Movie = require('./models');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ForbiddenError = require('../errors/forbidden-error');
-const {ErrorMessagesEnum} = require('../constants');
+const { ErrorMessagesEnum } = require('../constants');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id.toString() })
     .then((cards) => res.send(cards))
     .catch(next);
 };
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id).orFail(new NotFoundError(ErrorMessagesEnum.FILM_NOT_FOUND))
-    .then((card) => {
-      if (card.owner._id.toString() === req.user._id.toString()) {
-        return card.remove();
+    .then((movie) => {
+      if (movie.owner._id.toString() === req.user._id.toString()) {
+        return movie.remove();
       }
       throw new ForbiddenError(ErrorMessagesEnum.FILM_NOT_OWNER);
     })

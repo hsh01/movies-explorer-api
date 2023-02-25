@@ -3,7 +3,7 @@ const User = require('./models');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ConflictError = require('../errors/conflict-error');
-const {ErrorMessagesEnum} = require('../constants');
+const { ErrorMessagesEnum } = require('../constants');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -12,7 +12,7 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getMe = (req, res, next) => {
-  User.findById({_id: req.user._id})
+  User.findById({ _id: req.user._id })
     .then((user) => {
       res.send(user);
     })
